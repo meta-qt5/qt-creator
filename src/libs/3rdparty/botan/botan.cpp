@@ -1101,6 +1101,8 @@ class Montgomery_Exponentiator : public Modular_Exponentiator
 
 #if (BOTAN_MP_WORD_BITS != 32)
    #error The mp_x86_32 module requires that BOTAN_MP_WORD_BITS == 32
+#elif !defined(BOTAN_TARGET_CPU_IS_X86_FAMILY)
+typedef Botan::u64bit dword;
 #endif
 
 #ifdef Q_OS_UNIX
@@ -1118,6 +1120,7 @@ extern "C" {
 */
 inline word word_madd2(word a, word b, word* c)
    {
+#if defined(BOTAN_TARGET_CPU_IS_X86_FAMILY)
    asm(
       ASM("mull %[b]")
       ASM("addl %[c],%[a]")
@@ -1127,6 +1130,11 @@ inline word word_madd2(word a, word b, word* c)
       : "0"(a), "1"(b), [c]"g"(*c) : "cc");
 
    return a;
+#else
+   dword z = (dword)a * b + *c;
+   *c = (word)(z >> BOTAN_MP_WORD_BITS);
+   return (word)z;
+#endif
    }
 
 /*
@@ -1134,6 +1142,7 @@ inline word word_madd2(word a, word b, word* c)
 */
 inline word word_madd3(word a, word b, word c, word* d)
    {
+#if defined(BOTAN_TARGET_CPU_IS_X86_FAMILY)
    asm(
       ASM("mull %[b]")
 
@@ -1147,6 +1156,11 @@ inline word word_madd3(word a, word b, word c, word* d)
       : "0"(a), "1"(b), [c]"g"(c), [d]"g"(*d) : "cc");
 
    return a;
+#else
+   dword z = (dword)a * b + c + *d;
+   *d = (word)(z >> BOTAN_MP_WORD_BITS);
+   return (word)z;
+#endif
    }
 
 }
@@ -2315,7 +2329,7 @@ namespace Botan {
 
 extern "C" {
 
-#ifdef Q_OS_UNIX
+#if defined(Q_OS_UNIX) && defined(BOTAN_TARGET_CPU_IS_X86_FAMILY)
 /*
 * Helper Macros for x86 Assembly
 */
