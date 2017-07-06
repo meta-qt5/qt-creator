@@ -29,6 +29,8 @@
 ****************************************************************************/
 #include "layoutnodeinstance.h"
 
+#include <QCoreApplication>
+
 namespace QmlDesigner {
 namespace Internal {
 
