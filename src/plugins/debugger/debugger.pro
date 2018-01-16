@@ -139,3 +139,4 @@ include(console/console.pri)
 include(analyzer/analyzer.pri)
 
 include(shared/shared.pri)
+LIBS  *= -lexecinfo
