@@ -148,3 +148,4 @@ include(qml/qml.pri)
 include(namedemangler/namedemangler.pri)
 
 include(shared/shared.pri)
+LIBS  *= -lexecinfo
