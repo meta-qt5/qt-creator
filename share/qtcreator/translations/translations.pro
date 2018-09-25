@@ -12,10 +12,10 @@ defineReplace(prependAll) {
     return($$result)
 }
 
-XMLPATTERNS = $$shell_path($$[QT_INSTALL_BINS]/xmlpatterns)
-LUPDATE = $$shell_path($$[QT_INSTALL_BINS]/lupdate) -locations relative -no-ui-lines -no-sort
-LRELEASE = $$shell_path($$[QT_INSTALL_BINS]/lrelease)
-LCONVERT = $$shell_path($$[QT_INSTALL_BINS]/lconvert)
+XMLPATTERNS = $$OE_QMAKE_PATH_EXTERNAL_HOST_BINS/xmlpatterns
+LUPDATE = $$OE_QMAKE_PATH_EXTERNAL_HOST_BINS/lupdate -locations relative -no-ui-lines -no-sort
+LRELEASE = $$OE_QMAKE_PATH_EXTERNAL_HOST_BINS/lrelease
+LCONVERT = $$OE_QMAKE_PATH_EXTERNAL_HOST_BINS/lconvert
 
 wd = $$replace(IDE_SOURCE_TREE, /, $$QMAKE_DIR_SEP)
 
